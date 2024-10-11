@@ -8,6 +8,16 @@
     <name>shortlink_FromScratch</name>
     <description>shortlink_FromScratch</description>
 
+    <!-- 子模块，继承依赖    -->
+    <modules>
+        <module>admin</module>
+        <module>project</module>
+        <module>gateway</module>
+    </modules>
+
+    <!--  定义打包类型 意味着这个项目不会生成任何可执行的包（如 .jar 或 .war），而是仅用于管理和聚合其他模块或子项目。  -->
+    <packaging>pom</packaging>
+
     <properties>
         <java.version>17</java.version>
         <spring-boot.version>3.0.7</spring-boot.version>
@@ -24,6 +34,16 @@
         <guava.version>30.0-jre</guava.version>
     </properties>
 
+    <!-- 子类会继承父类的依赖   -->
+    <dependencies>
+        <!-- 简化 Java 类的开发，尤其是实体类的开发。   -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
+    </dependencies>
+
+    <!-- 允许你在父项目中指定某些依赖的版本，而在子模块中只需引用这些依赖而无需再次声明版本号, 并不会真实下载，只是起到规约版本的作用   -->
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -31,6 +51,7 @@
                 <artifactId>spring-boot-dependencies</artifactId>
                 <version>${spring-boot.version}</version>
                 <type>pom</type>
+                <!-- 引入另一个 POM 文件中的依赖管理配置-->
                 <scope>import</scope>
             </dependency>
 
