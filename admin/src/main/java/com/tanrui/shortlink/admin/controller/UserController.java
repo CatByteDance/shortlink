@@ -10,6 +10,7 @@ import com.tanrui.shortlink.admin.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -55,6 +56,16 @@ public class UserController {
          * PS: 序列化为 JSON是最后一步，所以提前转为UserActualRespDTO对象即可
          */
         return Results.success(BeanUtil.toBean(userService.getUserByUsername(username), UserActualRespDTO.class));
+    }
+
+
+    /**
+     * 查询用户名是否存在
+     * @RequestParam ("username"从请求中获取 username 参数，将其作为方法的输入。即客户端在调用接口时需要提供 username 参数，例如 ?username=johndoe。
+     */
+    @GetMapping("/api/shortlink/v1/user/has-username")
+    public Result<Boolean> hasUser(@RequestParam ("username") String username) {
+        return Results.success(!userService.hasUsername(username));
     }
 }
 

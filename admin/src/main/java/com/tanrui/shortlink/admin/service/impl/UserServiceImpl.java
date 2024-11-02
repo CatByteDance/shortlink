@@ -39,4 +39,19 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements 
 //          return null;
         }
     }
+
+
+
+    @Override
+    public Boolean hasUsername(String username) {
+
+//      1.构建查询条件
+        LambdaQueryWrapper<UserDO> queryWrapper = Wrappers.lambdaQuery(UserDO.class)
+                .eq(UserDO::getUsername, username);
+//      2。执行查询
+        UserDO userDO = baseMapper.selectOne(queryWrapper);
+
+//      3.userDO存在返回true, 不存在返回False
+        return userDO != null;
+    }
 }
