@@ -1,6 +1,9 @@
 package com.tanrui.shortlink.admin.controller;
 
 
+import com.tanrui.shortlink.admin.common.convention.result.Result;
+import com.tanrui.shortlink.admin.common.convention.result.Results;
+import com.tanrui.shortlink.admin.common.enums.UserErrorCodeEnum;
 import com.tanrui.shortlink.admin.dto.resp.UserRespDTO;
 import com.tanrui.shortlink.admin.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -19,14 +22,16 @@ public class UserController {
 
 
     private final UserService userService;
-//  映射 HTTP GET 请求。URL 中的 {username} 是一个 路径变量，它代表用户输入的动态部分。
-//  PathVariable将 URL 中的路径变量 {username} 映射到方法参数 username 上
     /**
      * 根据用户名查询用户信息
      */
     @GetMapping("/api/shortlink/v1/user/{username}")
-    public UserRespDTO getUserByUsername(@PathVariable("username") String username) {
-        return userService.getUserByUsername(username);
+    public Result<UserRespDTO> getUserByUsername(@PathVariable("username") String username) {
+        UserRespDTO userRespDTO = userService.getUserByUsername(username);
+            if (userRespDTO == null) {
+                return new Result<UserRespDTO>().setCode(UserErrorCodeEnum.USER_NULL.code()).setMessage(UserErrorCodeEnum.USER_NULL.message());
+            }
+                return Results.success(userRespDTO);
     }
 }
 
