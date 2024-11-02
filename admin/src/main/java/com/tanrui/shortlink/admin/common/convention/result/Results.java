@@ -39,6 +39,7 @@ public final class Results {
                 .setMessage(BaseErrorCode.SERVICE_ERROR.message());
     }
 
+
     /**
      * 通过 {@link AbstractException} 构建失败响应
      */
@@ -51,6 +52,7 @@ public final class Results {
                 .setCode(errorCode)
                 .setMessage(errorMessage);
     }
+
 
     /**
      * 通过 errorCode、errorMessage 构建失败响应
