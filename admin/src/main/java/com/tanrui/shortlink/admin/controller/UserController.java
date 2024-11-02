@@ -1,8 +1,10 @@
 package com.tanrui.shortlink.admin.controller;
 
 
+import cn.hutool.core.bean.BeanUtil;
 import com.tanrui.shortlink.admin.common.convention.result.Result;
 import com.tanrui.shortlink.admin.common.convention.result.Results;
+import com.tanrui.shortlink.admin.dto.resp.UserActualRespDTO;
 import com.tanrui.shortlink.admin.dto.resp.UserRespDTO;
 import com.tanrui.shortlink.admin.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -19,8 +21,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class UserController {
 
-
     private final UserService userService;
+
     /**
      * 根据用户名查询用户信息
      */
@@ -39,6 +41,20 @@ public class UserController {
          * }
          */
         return Results.success(userService.getUserByUsername(username));
+    }
+
+        /**
+         * 根据用户名查询无脱敏用户信息
+         */
+    @GetMapping("/api/shortlink/v1/actual/user/{username}")
+    public Result<UserActualRespDTO> getActualUserByUsername(@PathVariable("username") String username) {
+        /**
+         * !!! 转换为非脱敏 DTO
+         * BeanUtil.toBean 会将 UserRespDTO 中的数据（包括 phone 字段的原始值）转换为 UserActualRespDTO 对象。
+         * UserActualRespDTO 中的 phone 字段没有 @JsonSerialize 注解，因此 Jackson 在序列化为 JSON 时不会进行脱敏处理。
+         * PS: 序列化为 JSON是最后一步，所以提前转为UserActualRespDTO对象即可
+         */
+        return Results.success(BeanUtil.toBean(userService.getUserByUsername(username), UserActualRespDTO.class));
     }
 }
 
