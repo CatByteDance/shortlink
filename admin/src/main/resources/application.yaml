@@ -8,6 +8,13 @@ spring:
     url: jdbc:mysql://127.0.0.1:3306/shortlink?characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&transformedBitIsBoolean=true&serverTimezone=GMT%2B8
     driver-class-name: com.mysql.cj.jdbc.Driver
 
+  data:
+    redis:
+#     127.0.0.1：表示本机，不能用于连接到虚拟机上的 Redis 服务。要用虚拟机ip地址
+      host: 192.168.248.100
+      port: 6379
+      password: 123456
+
 #   Spring Boot 默认的 数据库连接池。HikariCP 是一个高效、轻量级的连接池，它管理数据库连接的创建、维护和回收。
   #   什么是 数据库连接池？
     # 在每次执行数据库操作时，如果创建新的数据库连接，开销会很大。为了解决这个问题，连接池会预先创建一批连接，当需要使用时从池中获取，使用后再归还。
