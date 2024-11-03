@@ -51,6 +51,17 @@
             <artifactId>hutool-all</artifactId>
             <version>5.7.16</version> <!-- 请使用最新的版本号 -->
         </dependency>
+        <!--     Redis 数据访问层的配置和使用-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
+        </dependency>
+
+<!--    Redisson 是一个高级的 Redis 客户端，提供了更多的功能和高级抽象    -->
+        <dependency>
+            <groupId>org.redisson</groupId>
+            <artifactId>redisson-spring-boot-starter</artifactId>
+        </dependency>
 
     </dependencies>
     <build>
