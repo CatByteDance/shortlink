@@ -3,6 +3,7 @@ package com.tanrui.shortlink.admin.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.tanrui.shortlink.admin.dao.entity.UserDO;
 import com.tanrui.shortlink.admin.dto.req.UserRegisterReqDTO;
+import com.tanrui.shortlink.admin.dto.req.UserUpdateReqDTO;
 import com.tanrui.shortlink.admin.dto.resp.UserRespDTO;
 
 /**
@@ -30,4 +31,10 @@ public interface UserService extends IService <UserDO> {
      * @param userRegisterReqDTO 注册用户请求参数
      */
     void register(UserRegisterReqDTO userRegisterReqDTO);
+
+    /**
+     * 根据用户名更新用户
+     * @param userUpdateReqDTO 更新用户请求参数
+     */
+    void update(UserUpdateReqDTO userUpdateReqDTO);
 }

@@ -5,6 +5,7 @@ import cn.hutool.core.bean.BeanUtil;
 import com.tanrui.shortlink.admin.common.convention.result.Result;
 import com.tanrui.shortlink.admin.common.convention.result.Results;
 import com.tanrui.shortlink.admin.dto.req.UserRegisterReqDTO;
+import com.tanrui.shortlink.admin.dto.req.UserUpdateReqDTO;
 import com.tanrui.shortlink.admin.dto.resp.UserActualRespDTO;
 import com.tanrui.shortlink.admin.dto.resp.UserRespDTO;
 import com.tanrui.shortlink.admin.service.UserService;
@@ -72,6 +73,15 @@ public class UserController {
     @PostMapping("/api/short-link/v1/user")
     public Result<Void> resgister(@RequestBody UserRegisterReqDTO reqDTO) {
         userService.register(reqDTO);
+        return Results.success();
+    }
+
+    /**
+     * 更新用户
+     */
+    @PutMapping("/api/short-link/v1/user")
+    public Result<Void> updateUser(@RequestBody UserUpdateReqDTO reqDTO) {
+        userService.update(reqDTO);
         return Results.success();
     }
 }
