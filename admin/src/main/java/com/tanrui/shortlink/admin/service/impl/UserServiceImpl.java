@@ -1,5 +1,6 @@
 package com.tanrui.shortlink.admin.service.impl;
 
+import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -7,12 +8,16 @@ import com.tanrui.shortlink.admin.common.convention.exception.ClientException;
 import com.tanrui.shortlink.admin.common.enums.UserErrorCodeEnum;
 import com.tanrui.shortlink.admin.dao.entity.UserDO;
 import com.tanrui.shortlink.admin.dao.mapper.UserMapper;
+import com.tanrui.shortlink.admin.dto.req.UserRegisterReqDTO;
 import com.tanrui.shortlink.admin.dto.resp.UserRespDTO;
 import com.tanrui.shortlink.admin.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.redisson.api.RBloomFilter;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+
+import static com.tanrui.shortlink.admin.common.enums.UserErrorCodeEnum.USER_NAME_EXIST;
+import static com.tanrui.shortlink.admin.common.enums.UserErrorCodeEnum.USER_SAVE_ERROR;
 
 /**
  * 用户接口实现层
@@ -50,4 +55,23 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements 
     public Boolean hasUsername(String username) {
         return userRegisterCachePenetrationBloomFilter.contains(username);
     }
+
+    @Override
+    public void register(UserRegisterReqDTO reqDTO) {
+
+//      1.先判断用户申请注册的用户名是否存在
+        if(hasUsername(reqDTO.getUsername())){
+            throw new ClientException(USER_NAME_EXIST);
+        }
+
+//      2.插入用户数据到数据库
+        int inserted = baseMapper.insert(BeanUtil.toBean(reqDTO, UserDO.class));
+        if(inserted < 1){
+            throw new ClientException(USER_SAVE_ERROR);
+        }
+
+//      3.注册完之后将username加入到布隆过滤器当中
+        userRegisterCachePenetrationBloomFilter.add(reqDTO.getUsername());
+    }
+
 }

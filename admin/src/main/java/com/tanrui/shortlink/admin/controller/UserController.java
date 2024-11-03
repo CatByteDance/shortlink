@@ -4,14 +4,12 @@ package com.tanrui.shortlink.admin.controller;
 import cn.hutool.core.bean.BeanUtil;
 import com.tanrui.shortlink.admin.common.convention.result.Result;
 import com.tanrui.shortlink.admin.common.convention.result.Results;
+import com.tanrui.shortlink.admin.dto.req.UserRegisterReqDTO;
 import com.tanrui.shortlink.admin.dto.resp.UserActualRespDTO;
 import com.tanrui.shortlink.admin.dto.resp.UserRespDTO;
 import com.tanrui.shortlink.admin.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * 用户管理控制层
@@ -27,7 +25,7 @@ public class UserController {
     /**
      * 根据用户名查询用户信息
      */
-    @GetMapping("/api/shortlink/v1/user/{username}")
+    @GetMapping("/api/short-link/v1/user/{username}")
     public Result<UserRespDTO> getUserByUsername(@PathVariable("username") String username) {
         /**
          *     开发全局异常拦截器之后不需要, 直接return success即可，因为userRespDTO为null的话，
@@ -47,7 +45,7 @@ public class UserController {
         /**
          * 根据用户名查询无脱敏用户信息
          */
-    @GetMapping("/api/shortlink/v1/actual/user/{username}")
+    @GetMapping("/api/short-link/v1/actual/user/{username}")
     public Result<UserActualRespDTO> getActualUserByUsername(@PathVariable("username") String username) {
         /**
          * !!! 转换为非脱敏 DTO
@@ -63,9 +61,18 @@ public class UserController {
      * 查询用户名是否存在
      * @RequestParam ("username"从请求中获取 username 参数，将其作为方法的输入。即客户端在调用接口时需要提供 username 参数，例如 ?username=johndoe。
      */
-    @GetMapping("/api/shortlink/v1/user/has-username")
+    @GetMapping("/api/short-link/v1/user/has-username")
     public Result<Boolean> hasUser(@RequestParam ("username") String username) {
         return Results.success(userService.hasUsername(username));
+    }
+
+    /**
+     * 注册用户
+     */
+    @PostMapping("/api/short-link/v1/user")
+    public Result<Void> resgister(@RequestBody UserRegisterReqDTO reqDTO) {
+        userService.register(reqDTO);
+        return Results.success();
     }
 }
 
