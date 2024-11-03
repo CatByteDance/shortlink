@@ -57,14 +57,14 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements 
 
     @Override
     public Boolean hasUsername(String username) {
-        return userRegisterCachePenetrationBloomFilter.contains(username);
+        return !userRegisterCachePenetrationBloomFilter.contains(username);
     }
 
     @Override
     public void register(UserRegisterReqDTO reqDTO) {
 
 //      1.先判断用户申请注册的用户名是否存在
-        if(hasUsername(reqDTO.getUsername())){
+        if(!hasUsername(reqDTO.getUsername())){
             throw new ClientException(USER_NAME_EXIST);
         }
 
