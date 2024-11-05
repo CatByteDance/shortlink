@@ -25,8 +25,6 @@ public class Result<T> implements Serializable {
      */
     public static final String SUCCESS_CODE = "0";
 
-
-
     /**
      * 返回码
      */
