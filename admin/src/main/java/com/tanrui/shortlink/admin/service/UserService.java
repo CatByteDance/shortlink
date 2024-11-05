@@ -2,8 +2,10 @@ package com.tanrui.shortlink.admin.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.tanrui.shortlink.admin.dao.entity.UserDO;
+import com.tanrui.shortlink.admin.dto.req.UserLoginReqDTO;
 import com.tanrui.shortlink.admin.dto.req.UserRegisterReqDTO;
 import com.tanrui.shortlink.admin.dto.req.UserUpdateReqDTO;
+import com.tanrui.shortlink.admin.dto.resp.UserLoginRespDTO;
 import com.tanrui.shortlink.admin.dto.resp.UserRespDTO;
 
 /**
@@ -37,4 +39,19 @@ public interface UserService extends IService <UserDO> {
      * @param userUpdateReqDTO 更新用户请求参数
      */
     void update(UserUpdateReqDTO userUpdateReqDTO);
+
+    /**
+     * 用户登录
+     * @param userLoginReqDTO 用户登录请求参数
+     * @return RespDTO 包含 token 的响应对象
+     */
+    UserLoginRespDTO login(UserLoginReqDTO userLoginReqDTO);
+
+    /**
+     * 检查用户是否登录
+     * @param username 用户名
+     * @param token 用户登录Token
+     * @return 用户是否登录标识
+     */
+    Boolean checkLogin(String username, String token);
 }
