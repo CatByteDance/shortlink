@@ -1,14 +1,18 @@
 package com.tanrui.shortlink.admin.service.impl;
 
+import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.tanrui.shortlink.admin.dao.entity.GroupDO;
 import com.tanrui.shortlink.admin.dao.mapper.GroupMapper;
+import com.tanrui.shortlink.admin.dto.resp.ShortLinkGroupRespDTO;
 import com.tanrui.shortlink.admin.service.GroupService;
 import com.tanrui.shortlink.admin.toolkit.RandomGenerator;
 import groovy.util.logging.Slf4j;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 
 /**
@@ -32,6 +36,19 @@ public class GroupServiceImpl extends ServiceImpl<GroupMapper, GroupDO> implemen
                 .build();
 
         baseMapper.insert(groupDO);
+    }
+
+    @Override
+    public List<ShortLinkGroupRespDTO> listGroup() {
+        LambdaQueryWrapper<GroupDO> wrapper = Wrappers.lambdaQuery(GroupDO.class)
+                .eq(GroupDO::getDelFlag, 0)
+//              TODO 从当前上下文获取用户名
+                .eq(GroupDO::getUsername, "tanrui")
+                .orderByDesc(List.of(GroupDO::getSortOrder, GroupDO::getUpdateTime));
+
+
+        List<GroupDO> groupDOList = baseMapper.selectList(wrapper);
+        return BeanUtil.copyToList(groupDOList, ShortLinkGroupRespDTO.class);
     }
 
     private boolean hasGid(String gid) {
