@@ -28,7 +28,7 @@ public class UserController {
     /**
      * 根据用户名查询用户信息
      */
-    @GetMapping("/api/short-link/v1/user/{username}")
+    @GetMapping("/api/short-link/admin/v1/user/{username}")
     public Result<UserRespDTO> getUserByUsername(@PathVariable("username") String username) {
         /**
          *     开发全局异常拦截器之后不需要, 直接return success即可，因为userRespDTO为null的话，
@@ -48,7 +48,7 @@ public class UserController {
         /**
          * 根据用户名查询无脱敏用户信息
          */
-    @GetMapping("/api/short-link/v1/actual/user/{username}")
+    @GetMapping("/api/short-link/admin/v1/actual/user/{username}")
     public Result<UserActualRespDTO> getActualUserByUsername(@PathVariable("username") String username) {
         /**
          * !!! 转换为非脱敏 DTO
@@ -64,7 +64,7 @@ public class UserController {
      * 查询用户名是否存在
      * @RequestParam ("username"从请求中获取 username 参数，将其作为方法的输入。即客户端在调用接口时需要提供 username 参数，例如 ?username=johndoe。
      */
-    @GetMapping("/api/short-link/v1/user/has-username")
+    @GetMapping("/api/short-link/admin/v1/user/has-username")
     public Result<Boolean> hasUser(@RequestParam ("username") String username) {
         return Results.success(userService.hasUsername(username));
     }
@@ -72,7 +72,7 @@ public class UserController {
     /**
      * 注册用户
      */
-    @PostMapping("/api/short-link/v1/user")
+    @PostMapping("/api/short-link/admin/v1/user")
     public Result<Void> resgister(@RequestBody UserRegisterReqDTO reqDTO) {
         userService.register(reqDTO);
         return Results.success();
@@ -81,7 +81,7 @@ public class UserController {
     /**
      * 更新用户
      */
-    @PutMapping("/api/short-link/v1/user")
+    @PutMapping("/api/short-link/admin/v1/user")
     public Result<Void> updateUser(@RequestBody UserUpdateReqDTO reqDTO) {
         userService.update(reqDTO);
         return Results.success();
@@ -91,7 +91,7 @@ public class UserController {
     /**
      * 用户登录
      */
-    @PostMapping("/api/short-link/v1/user/login")
+    @PostMapping("/api/short-link/admin/v1/user/login")
     public Result<UserLoginRespDTO> login(@RequestBody UserLoginReqDTO reqDTO) {
         return Results.success(userService.login(reqDTO));
     }
@@ -99,7 +99,7 @@ public class UserController {
     /**
      * 检查用户是否登录
      */
-    @GetMapping("/api/short-link/v1/user/check-login")
+    @GetMapping("/api/short-link/admin/v1/user/check-login")
     public Result<Boolean> checkLogin(@RequestParam("username") String username, @RequestParam("token") String token) {
         return Results.success(userService.checkLogin(username,token));
     }
@@ -107,7 +107,7 @@ public class UserController {
     /**
      * 用户退出登录
      */
-    @DeleteMapping("/api/short-link/v1/user/logout")
+    @DeleteMapping("/api/short-link/adminv1/user/logout")
     public Result<Void> logout (@RequestParam("username") String username, @RequestParam("token") String token){
         userService.logout(username, token);
         return Results.success();
