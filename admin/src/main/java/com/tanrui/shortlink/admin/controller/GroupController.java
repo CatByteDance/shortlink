@@ -3,6 +3,7 @@ package com.tanrui.shortlink.admin.controller;
 import com.tanrui.shortlink.admin.common.convention.result.Result;
 import com.tanrui.shortlink.admin.common.convention.result.Results;
 import com.tanrui.shortlink.admin.dto.req.ShortLinkGroupSaveReqDTO;
+import com.tanrui.shortlink.admin.dto.req.ShortLinkGroupSortReqDTO;
 import com.tanrui.shortlink.admin.dto.req.ShortLinkGroupUpdateReqDTO;
 import com.tanrui.shortlink.admin.dto.resp.ShortLinkGroupRespDTO;
 import com.tanrui.shortlink.admin.service.GroupService;
@@ -54,4 +55,14 @@ public class GroupController {
                 groupService.deleteGroup(gid);
                 return Results.success();
         }
+
+        /**
+         * 短链接分组排序
+         */
+        @PostMapping("/api/short-link/v1/group/sort")
+        public Result<Void> sortGroup(@RequestBody List<ShortLinkGroupSortReqDTO> requestParam) {
+                groupService.sortGroup(requestParam);
+                return Results.success();
+        }
+
 }
